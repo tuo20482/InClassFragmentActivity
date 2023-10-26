@@ -40,16 +40,17 @@ class ImageDisplayFragment : Fragment() {
         // The recycler view is the root element of the Fragment's layout
         // as such the view argument passed to onViewCreated() is the RecyclerView
         with (view as RecyclerView) {
-            adapter = CustomRecyclerAdapter(images)
-            if (::images.isInitialized) {
+            if(::images.isInitialized)
                 adapter = CustomRecyclerAdapter(images)
-            }
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }
 
-    fun setImages(images: IntArray) {
-        (view as RecyclerView).adapter = CustomRecyclerAdapter(images)
+    fun setImages(_images: IntArray){
+        images = _images
+        view?.run {
+            (view as RecyclerView).adapter = CustomRecyclerAdapter(images)
+        }
     }
 
     companion object {

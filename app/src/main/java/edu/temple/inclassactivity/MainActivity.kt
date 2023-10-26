@@ -16,21 +16,16 @@ class MainActivity : AppCompatActivity() {
         val imageArray = IntArray(typedArray.length()) { typedArray.getResourceId(it, 0) }
         typedArray.recycle()
 
-        // Attach an instance of ImageDisplayFragment using factory method
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragment_container, ImageDisplayFragment())
-            .addToBackStack(null)
-            .setReorderingAllowed(true)
-            .commit()
-    }
+        val imageDisplayFragment = ImageDisplayFragment.newInstance(imageArray)
 
-    override fun imageSelected(itemId: Int) {
-        Toast.makeText(this, "You selected $itemId", Toast.LENGTH_SHORT).show()
-    }
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container) !is ImageDisplayFragment)
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, imageDisplayFragment)
+                .addToBackStack(null)
+                .setReorderingAllowed(true)
+                .commit()
 
-    fun setImages(images: IntArray) {
-        (view as RecyclerView).adapter = CustomRecyclerAdapter(images)
     }
 }
 
